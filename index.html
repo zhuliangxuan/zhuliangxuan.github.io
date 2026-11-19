@@ -377,7 +377,7 @@ footer .cp{color:var(--muted);font-size:12.5px;opacity:.85}
   </div>
   <div class="wrap hero-inner">
     <div>
-      <div class="badge reveal"><span class="dot"></span>v0.5.4 正式版 · 完全免费 · 纯本地离线</div>
+      <div class="badge reveal"><span class="dot"></span><span id="verBadge">v0.5.6</span> 正式版 · 完全免费 · 纯本地离线</div>
       <h1 class="reveal" style="--d:.05s">百宝箱<br><span class="grad">一个顶一百个</span>的效率工具箱</h1>
       <p class="hero-sub reveal" style="--d:.1s">书签导航 + 内置浏览器 + <b>100+ 款工具与教育互动应用</b>，网络电台 / 电视 / 点播 / 电子书一站集成。</p>
       <p class="hero-desc reveal" style="--d:.15s">完全免费、无广告、无需注册登录，纯本地离线运行 —— 数据只保存在你自己的设备里，放心使用。</p>
@@ -462,7 +462,7 @@ footer .cp{color:var(--muted);font-size:12.5px;opacity:.85}
       <div class="hl-card reveal"><div class="big">✨</div><h3>功能多</h3><p>100+ 款工具横跨 14 大类，开发、办公、教育、娱乐、生活全覆盖；注册制按需加载，功能多而流畅。</p></div>
       <div class="hl-card reveal" style="--d:.08s"><div class="big">🎨</div><h3>界面美观</h3><p>现代化卡片设计，深浅色主题跟随系统自动切换，自绘标题栏 + 托盘 + 多窗格，颜值与质感在线。</p></div>
       <div class="hl-card reveal" style="--d:.16s"><div class="big">🖱️</div><h3>操作方便</h3><p>常用工具一键收藏置顶、全局搜索、拖动排序；儿童模式一键切换，数据备份一键完成，长辈孩子都会用。</p></div>
-      <div class="hl-card reveal" style="--d:.24s"><div class="big">🪶</div><h3>体积小巧</h3><p>安装包仅约 50MB（安卓约 62MB），大资源按需在线获取，用不到就不占空间，老电脑也能流畅运行。</p></div>
+      <div class="hl-card reveal" style="--d:.24s"><div class="big">🪶</div><h3>体积小巧</h3><p>安装包仅约 50MB（安卓约 47MB），大资源按需在线获取，用不到就不占空间，老电脑也能流畅运行。</p></div>
     </div>
 
     <div class="chips reveal">
@@ -517,20 +517,20 @@ footer .cp{color:var(--muted);font-size:12.5px;opacity:.85}
     <div class="sec-head reveal">
       <span class="eyebrow">下载地址</span>
       <h2>免费下载百宝箱</h2>
-      <p>当前版本 <b>v0.5.4</b> · 全部功能免费 · 支持自动更新，只需安装一次</p>
+      <p>当前版本 <b id="verHead">v0.5.6</b> · 全部功能免费 · 支持自动更新，只需安装一次</p>
     </div>
     <div class="dl-grid">
       <div class="dl-card reveal">
         <div class="os">🪟</div>
         <h3>Windows 安装包</h3>
-        <div class="meta">x64 · 约 50MB<br>支持 Windows 10 / 11（缺 WebView2 运行时会自动补装）</div>
-        <a class="btn btn-primary btn-lg" href="https://gitee.com/zhuliangxuan/waypoint-data/releases#release-v0.5.4" target="_blank" rel="noopener">⬇ 下载 Windows 版</a>
+        <div class="meta"><span id="metaWin">v0.5.6 · x64 · 约 47MB</span><br>支持 Windows 10 / 11（缺 WebView2 运行时会自动补装）</div>
+        <a class="btn btn-primary btn-lg" id="btnWin" href="https://gitee.com/zhuliangxuan/waypoint-data/releases" target="_blank" rel="noopener">⬇ 下载 Windows 版</a>
       </div>
       <div class="dl-card reveal" style="--d:.1s">
         <div class="os">🤖</div>
         <h3>Android 安卓版</h3>
-        <div class="meta">APK · 约 62MB<br>支持 Android 7.0 及以上 · 升级请覆盖安装</div>
-        <a class="btn btn-primary btn-lg" href="https://gitee.com/zhuliangxuan/waypoint-data/releases#release-v0.5.4" target="_blank" rel="noopener">⬇ 下载安卓版</a>
+        <div class="meta"><span id="metaAndroid">v0.5.6 · APK · 约 47MB</span><br>支持 Android 7.0 及以上 · 升级请覆盖安装</div>
+        <a class="btn btn-primary btn-lg" id="btnAndroid" href="https://gitee.com/zhuliangxuan/waypoint-data/releases" target="_blank" rel="noopener">⬇ 下载安卓版</a>
       </div>
     </div>
     <div class="dl-note reveal" style="margin-top:34px">🔄 <b>支持自动更新</b> —— 只需安装一次，后续新版本在应用内即可获取升级，数据无损、无需重装；最新发行版请随时到 <a href="https://gitee.com/zhuliangxuan/waypoint-data/releases" target="_blank" rel="noopener">下载页面</a> 查看。</div>
@@ -656,6 +656,72 @@ document.querySelectorAll('.qr-card img').forEach(function(img){
 });
 lb.addEventListener('click',function(){lb.classList.remove('open')});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('open')});
+
+// ---------- 最新版本：刷新页面时拉取 waypoint-data 发行版的 update.json ----------
+// 发版流程（waypoint/scripts/publish-release.py）每次发版都会覆盖清单：既上传成固定 tag
+// 「manifest」发行版的附件，也提交到数据仓库的 data/update.json，两者内容一致。
+// 附件直链会 302 到 gitee 的签名 CDN，重定向链上没有 CORS 头，浏览器跨域 fetch 拿不到；
+// 内容 API（/api/v5 .../contents/...）返回 base64 内联、带 Access-Control-Allow-Origin:*，
+// 所以主走 API、附件直链兜底，都失败时保持页面里写好的发布页链接。
+(function(){
+  var API_URL='https://gitee.com/api/v5/repos/zhuliangxuan/waypoint-data/contents/data/update.json';
+  var ASSET_URL='https://gitee.com/zhuliangxuan/waypoint-data/releases/download/manifest/update.json';
+  var btnWin=document.getElementById('btnWin'),btnAndroid=document.getElementById('btnAndroid');
+  var metaWin=document.getElementById('metaWin'),metaAndroid=document.getElementById('metaAndroid');
+  var verBadge=document.getElementById('verBadge'),verHead=document.getElementById('verHead');
+
+  function decodeB64(b64){
+    var bin=atob(String(b64||'').replace(/\s+/g,'')),bytes=new Uint8Array(bin.length);
+    for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+  function fetchManifest(){
+    return fetch(API_URL,{cache:'no-store'}).then(function(r){
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      return r.json();
+    }).then(function(d){return JSON.parse(decodeB64(d.content))})
+      .catch(function(){ // API 不可达时再试附件直链（能过 CORS 的环境直接用）
+        return fetch(ASSET_URL,{cache:'no-store'}).then(function(r){
+          if(!r.ok)throw new Error('HTTP '+r.status);
+          return r.json();
+        });
+      });
+  }
+  function fmtSize(n){
+    n=parseInt(n,10);
+    if(!n||n<=0)return '';
+    if(n<1048576)return Math.round(n/1024)+' KB';
+    return (n/1048576).toFixed(1)+' MB';
+  }
+  function verCmp(a,b){ // 返回 >0 表示 a 更新
+    var pa=String(a||'').split('.'),pb=String(b||'').split('.');
+    for(var i=0;i<Math.max(pa.length,pb.length);i++){
+      var x=parseInt(pa[i],10)||0,y=parseInt(pb[i],10)||0;
+      if(x!==y)return x-y;
+    }
+    return 0;
+  }
+  function metaLine(entry,fallback){ // 卡片第一行：版本 · 架构 · 大小
+    var parts=[],e=entry||{};
+    if(e.version)parts.push('v'+e.version);
+    parts.push(fallback.arch);
+    var s=fmtSize(e.size);
+    parts.push(s||fallback.size);
+    return parts.join(' · ');
+  }
+  function apply(m){
+    if(!m||typeof m!=='object')return;
+    var win=m.windows||{},and=m.android||{};
+    // 拉到直链就当前页直接下载（attachment 响应不会跳走），拉不到保持发布页链接
+    if(win.url){btnWin.href=win.url;btnWin.removeAttribute('target');btnWin.removeAttribute('rel')}
+    if(and.url){btnAndroid.href=and.url;btnAndroid.removeAttribute('target');btnAndroid.removeAttribute('rel')}
+    metaWin.textContent=metaLine(win,{arch:'x64',size:'约 47MB'});
+    metaAndroid.textContent=metaLine(and,{arch:'APK',size:'约 47MB'});
+    var latest=[win.version,and.version].filter(Boolean).sort(verCmp).pop();
+    if(latest){verBadge.textContent='v'+latest;verHead.textContent='v'+latest;}
+  }
+  fetchManifest().then(apply).catch(function(){/* 网络异常：保持静态兜底内容 */});
+})();
 </script>
 </body>
 </html>
